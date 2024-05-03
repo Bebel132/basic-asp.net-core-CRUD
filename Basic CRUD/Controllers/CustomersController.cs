@@ -41,9 +41,24 @@
         [HttpPost("Customers")]
         public ActionResult Post([FromBody] Customer customer)
         {
+            if (db == null)
+            {
+                return BadRequest("Database context is null.");
+            }
+
+            if (db.Customers == null)
+            {
+                return BadRequest("Customers set is null.");
+            }
+
+            if (customer == null)
+            {
+                return BadRequest("Customer is null.");
+            }
+
             db.Customers.Add(customer);
 
-            return Created(customer);
+            return Ok(customer);
         }
 
         // update a specific Customer
